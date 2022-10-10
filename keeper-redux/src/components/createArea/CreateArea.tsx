@@ -1,21 +1,21 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux"
 import AddIcon from "@mui/icons-material/Add";
 import { Fab, Zoom } from "@mui/material";
 
+import { add } from "../../redux/todo/noteSlice";
 import "./createArea.css";
-
-interface IProps {
-  addNote: any;
-}
+import { StoreDispatch } from "../../redux/todo/store";
 
 interface Note {
   title?: string;
   content?: string;
 }
 
-const CreateArea = ({ addNote }: IProps) => {
+const CreateArea = () => {
   const [note, setNote] = useState<Note>({ title: "", content: "" });
   const [expanded, setExpanded] = useState<boolean>(false);
+  const dispatch = useDispatch<StoreDispatch>();
 
   const handleChange = (
     event:
@@ -33,7 +33,7 @@ const CreateArea = ({ addNote }: IProps) => {
   };
 
   const handleSubmit = (event: any) => {
-    addNote(note);
+    dispatch(add(note));
     setNote({ title: "", content: "" });
   };
 

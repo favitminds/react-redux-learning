@@ -1,43 +1,24 @@
-import { useState } from "react";
+import { useSelector } from 'react-redux'
 
 import "./App.css";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import Note from "../note/note";
 import CreateArea from "../createArea/CreateArea";
-
-interface Item {
-  title: string;
-  content: string;
-}
+import { StoreState } from "../../redux/todo/store";
 
 const App = () => {
-  const [notes, setNotes] = useState<Item[]>([]);
-
-  const addNote = (note: Item) => {
-    setNotes((prevItems: Item[]) => {
-      return [...prevItems, note];
-    });
-  };
-
-  const removeNote = (id: number) => {
-    setNotes((prevItems: Item[]) => {
-      return prevItems.filter((item, index) => {
-        return index !== id;
-      });
-    });
-  };
+  const { notes } = useSelector((state: StoreState) => state)
 
   return (
     <div>
       <Header />
-      <CreateArea addNote={addNote} />
+      <CreateArea />
       {notes.map((note, index) => (
         <Note
           key={index}
           content={note.content}
           title={note.title}
-          removeNote={removeNote}
           id={index}
         />
       ))}
